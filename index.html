@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Zovexa builds AI phone receptionists for trades and local service businesses to capture leads, book jobs, and answer calls 24/7.">
+<title>Zovexa – AI Voice Agents for Trades</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* BASE */
+*{box-sizing:border-box;}
+body{
+  font-family:Inter, sans-serif;
+  margin:0;
+  background:#f7f9fc;
+  color:#0f172a;
+}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:3px solid #9bb5ff;outline-offset:2px;
+}
+a{text-decoration:none;color:inherit;}
+.container{width:92%;max-width:1100px;margin:0 auto;}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:1000;
+  background:#ffffffdd;
+  backdrop-filter:blur(12px);
+  padding:14px 0;
+  border-bottom:1px solid #e4e8f3;
+}
+.nav-content{
+  display:flex;justify-content:space-between;align-items:center;
+}
+.nav-right a{
+  margin-left:18px;font-weight:600;color:#334155;
+}
+.btn-primary-sm{
+  background:#4a6cf7;color:white;padding:8px 16px;border-radius:8px;font-weight:600;
+}
+
+/* BUTTONS */
+.btn-primary{
+  background:#4a6cf7;color:white;padding:12px 22px;border-radius:12px;font-weight:600;transition:0.2s;
+}
+.btn-primary:hover{background:#3359f5;}
+.btn-light{
+  background:#e4ebff;color:#1e3a8a;padding:12px 22px;border-radius:12px;font-weight:600;
+}
+.btn-block{display:block;width:100%;margin-top:12px;}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#0a0f1a,#1c2740);
+  color:white;padding:120px 20px 100px;text-align:center;
+}
+.hero h1{font-size:2.8rem;margin-bottom:16px;}
+.hero p{color:#dce4f2;font-size:1.2rem;margin-bottom:26px;}
+.cta-row{display:flex;gap:12px;justify-content:center;}
+
+/* SECTIONS */
+.section{padding:80px 0;}
+.section h2{text-align:center;margin-bottom:10px;font-size:2.2rem;}
+.sub{text-align:center;color:#64748b;max-width:720px;margin:0 auto;}
+.center{text-align:center;margin-top:20px;}
+
+/* HOW IT WORKS */
+.how-grid{
+  margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;
+}
+.how-card{
+  background:white;padding:20px;border-radius:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+}
+
+/* EXAMPLE CALL */
+.bubble-area{margin-top:30px;}
+.bubble{
+  max-width:500px;padding:14px 18px;border-radius:14px;margin:10px 0;font-size:1rem;
+}
+.agent{background:#4a6cf7;color:white;margin-right:auto;}
+.customer{background:white;border:1px solid #e2e8f0;margin-left:auto;}
+
+/* BENEFITS */
+.benefit-grid{
+  margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;
+}
+.benefit-card{
+  background:white;padding:20px;border-radius:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+}
+
+/* ROI */
+.roi-grid{
+  margin-top:30px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;
+}
+.roi-bar{
+  height:22px;border-radius:12px;background:#d1d9ff;position:relative;overflow:hidden;
+}
+.roi-bar:after{
+  content:'';position:absolute;top:0;left:0;height:100%;background:#4a6cf7;border-radius:12px;
+}
+.bar1:after{width:80%;}
+.bar2:after{width:65%;}
+.bar3:after{width:95%;}
+
+/* PRICING */
+.pricing-grid{
+  margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;
+}
+.tier{
+  background:white;padding:20px;border-radius:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+  cursor:pointer;transition:0.25s;
+}
+.tier:hover{transform:translateY(-4px);}
+.tier-extra{display:none;margin-top:12px;color:#555;}
+.tier.expanded .tier-extra{display:block;}
+.highlight{border:2px solid #4a6cf7;}
+
+/* WIZARD */
+.wizard-card{
+  margin-top:40px;background:white;padding:26px;border-radius:14px;
+  box-shadow:0 4px 30px rgba(0,0,0,0.06);max-width:600px;margin-left:auto;margin-right:auto;
+}
+.dots{display:flex;justify-content:center;gap:10px;margin-bottom:20px;}
+.dot{width:12px;height:12px;border-radius:50%;background:#cbd5e1;}
+.dot.active{background:#4a6cf7;}
+.step{display:none;animation:fade 0.2s ease;}
+.step.active{display:block;}
+input,select{
+  width:100%;padding:12px;margin-top:6px;border-radius:10px;border:1px solid #d7deea;
+}
+
+/* MODAL */
+.glass-modal{
+  display:none;position:fixed;inset:0;background:rgba(255,255,255,0.25);
+  backdrop-filter:blur(12px);align-items:center;justify-content:center;z-index:9999;
+}
+.glass-content{
+  background:white;padding:26px;border-radius:16px;width:90%;max-width:420px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.15);
+}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:20px;right:20px;background:#10b981;color:white;
+  padding:14px 20px;border-radius:10px;font-weight:600;opacity:0;
+  transform:translateY(20px);transition:all 0.35s;
+}
+
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-content">
+    <div class="nav-left" style="font-weight:700;font-size:1.2rem;">Zovexa</div>
+    <div class="nav-right">
+      <a href="#how">How It Works</a>
+      <a href="#demo">Demo</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#wizard">Find My Plan</a>
+      <a href="#" class="btn-primary-sm openGlass">Book a Call</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <h1>AI Phone Receptionists for Trades & Local Service Businesses</h1>
+    <p>Stop missing calls. Let Zovexa answer enquiries, capture leads, and book jobs — instantly, 24/7.</p>
+
+    <div class="cta-row">
+      <a class="btn-primary openGlass" href="#">Book a Setup Call</a>
+      <a class="btn-light" href="#demo">Try Demo</a>
+    </div>
+  </div>
+</header>
+
+<!-- DEMO -->
+<section id="demo" class="section">
+  <div class="container">
+    <h2>Try a Live Demo</h2>
+    <p class="sub">Call our AI assistant and listen to how it handles real customer enquiries.</p>
+    <div class="center">
+      <a class="btn-primary" href="tel:+447723561792" aria-label="Call the demo agent">📞 Call Demo Agent</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="section">
+  <div class="container">
+    <h2>How Zovexa Works</h2>
+    <p class="sub">Your AI receptionist answers calls, collects job details, and books work — all in under 10 seconds.</p>
+
+    <div class="how-grid">
+      <div class="how-card">
+        <h3>1. Customer Calls</h3>
+        <p>Your phone rings — Zovexa answers instantly.</p>
+      </div>
+
+      <div class="how-card">
+        <h3>2. Job Details Collected</h3>
+        <p>Name, address, job type, urgency — all done in seconds.</p>
+      </div>
+
+      <div class="how-card">
+        <h3>3. Calendar Checked</h3>
+        <p>Hybrid + Full plans scan availability automatically.</p>
+      </div>
+
+      <div class="how-card">
+        <h3>4. Job Confirmed</h3>
+        <p>You get the summary. Confirm with one tap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLE CALL -->
+<section class="section">
+  <div class="container">
+    <h2>Example Call Transcript</h2>
+    <div class="bubble-area">
+      <div class="bubble agent">“Hi, thanks for calling — how can I help today?”</div>
+      <div class="bubble customer">“Boiler keeps shutting off — need someone to look at it.”</div>
+      <div class="bubble agent">“Sure — what's your postcode and availability?”</div>
+      <div class="bubble customer">“CT1 2XX — tomorrow morning.”</div>
+      <div class="bubble agent">“Perfect — I’ve sent everything to your engineer now.”</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section">
+  <div class="container">
+    <h2>Why Trades Choose Zovexa</h2>
+
+    <div class="benefit-grid">
+      <div class="benefit-card"><h3>Stop Missed Calls</h3><p>Never lose work again.</p></div>
+      <div class="benefit-card"><h3>24/7 Availability</h3><p>Your agent never sleeps.</p></div>
+      <div class="benefit-card"><h3>Instant Lead Delivery</h3><p>New jobs sent instantly.</p></div>
+      <div class="benefit-card"><h3>No Double Booking</h3><p>Smart scheduling built in.</p></div>
+      <div class="benefit-card"><h3>Cheaper Than Staff</h3><p>Save £1,500–£3,000/mo.</p></div>
+      <div class="benefit-card"><h3>Super Fast</h3><p>Answers in under a second.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section class="section">
+  <div class="container">
+    <h2>Real ROI from Day One</h2>
+    <p class="sub">AI voice agents cost less than missed calls.</p>
+
+    <div class="roi-grid">
+      <div>
+        <h3>Hours Saved</h3>
+        <div class="roi-bar bar1"></div>
+      </div>
+
+      <div>
+        <h3>Jobs Recovered</h3>
+        <div class="roi-bar bar2"></div>
+      </div>
+
+      <div>
+        <h3>ROI</h3>
+        <div class="roi-bar bar3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="section">
+  <div class="container">
+    <h2>Pricing</h2>
+    <p class="sub">Choose the automation level that fits your workflow.</p>
+
+    <div class="center">
+      <a class="btn-primary openGlass" href="#">📞 Book a Setup Call</a>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="tier" data-tier="lead" tabindex="0">
+        <h3>Lead Capture Agent</h3><p class="price">£129/mo</p>
+        <ul><li>24/7 answering</li><li>Lead capture only</li><li>Instant SMS/email</li></ul>
+        <div class="tier-extra"><p>Best for solo trades.</p></div>
+      </div>
+
+      <div class="tier highlight" data-tier="hybrid" tabindex="0">
+        <h3>Hybrid Booking Agent</h3><p class="price">£199/mo</p>
+        <ul><li>All Lead features</li><li>Provisional bookings</li><li>Calendar checks</li></ul>
+        <div class="tier-extra"><p>Most popular plan.</p></div>
+      </div>
+
+      <div class="tier" data-tier="full" tabindex="0">
+        <h3>Full Smart Scheduler</h3><p class="price">£299–349/mo</p>
+        <ul><li>Full scanning</li><li>Auto-booking</li><li>Travel-time logic</li></ul>
+        <div class="tier-extra"><p>Best for large teams.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WIZARD -->
+<section id="wizard" class="section">
+  <div class="container">
+    <h2>Find Your Best Plan</h2>
+    <p class="sub">6 questions. Instant recommendation.</p>
+
+    <div class="wizard-card">
+
+      <div class="dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+
+      <div class="step active" id="step1">
+        <label>Name</label><input id="name">
+        <label>Business Name</label><input id="business">
+        <label>Email (optional)</label><input id="email">
+        <label>Phone (optional)</label><input id="phone">
+        <label>Trade</label><input id="trade">
+
+        <button class="btn-primary btn-block" id="next1" type="button">Next</button>
+      </div>
+
+      <div class="step" id="step2">
+        <label>Diary System</label>
+        <select id="calendar">
+          <option value="google">Google</option>
+          <option value="outlook">Outlook</option>
+          <option value="job">Jobber / ServiceM8</option>
+          <option value="none">None</option>
+          <option value="paper">Paper Diary</option>
+        </select>
+
+        <label>Automation Level</label>
+        <select id="automation">
+          <option value="lead">Lead Capture</option>
+          <option value="hybrid">Hybrid</option>
+          <option value="full">Full</option>
+        </select>
+
+        <label>Staff Count</label>
+        <select id="staff">
+          <option value="solo">Solo</option>
+          <option value="2-3">2–3</option>
+          <option value="4+">4+</option>
+        </select>
+
+        <button class="btn-light btn-block" id="back2" type="button">Back</button>
+        <button class="btn-primary btn-block" id="next2" type="button">Next</button>
+      </div>
+
+      <div class="step" id="step3">
+        <label>Calls per Day</label>
+        <select id="calls">
+          <option value="low">0–5</option>
+          <option value="medium">6–15</option>
+          <option value="high">16+</option>
+        </select>
+
+        <label>Travel Radius</label>
+        <select id="radius">
+          <option value="small">0–5 miles</option>
+          <option value="medium">6–15 miles</option>
+          <option value="large">15+ miles</option>
+        </select>
+
+        <label><input type="checkbox" id="consent"> I give permission to be contacted</label>
+
+        <button class="btn-light btn-block" id="back3" type="button">Back</button>
+        <button class="btn-primary btn-block" id="submit" type="button">Get Recommendation</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div id="glassCallModal" class="glass-modal">
+  <div class="glass-content" role="dialog" aria-modal="true" aria-labelledby="glassCallTitle">
+    <h2 id="glassCallTitle">Book a Setup Call</h2>
+    <label>Your Name</label><input id="glassCallName">
+    <label>Email (optional)</label><input id="glassCallEmail">
+    <label>Phone (optional)</label><input id="glassCallPhone">
+    <button id="glassCallSubmit" class="btn-primary btn-block" type="button">Submit</button>
+    <button id="glassCallClose" class="btn-light btn-block" type="button">Cancel</button>
+  </div>
+</div>
+
+<div id="toastSuccess" class="toast" role="status" aria-live="polite">✔️ Submitted!</div>
+
+<script>
+/* ---------- NAV SMOOTH SCROLL ---------- */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    if(a.getAttribute('href')==="#" ) return;
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:"smooth"});
+  });
+});
+
+/* ---------- PRICING TIERS ---------- */
+const tiers=[...document.querySelectorAll('.tier')];
+function expandTier(tier){
+  tiers.forEach(x=>x.classList.remove('expanded'));
+  tier.classList.add('expanded');
+}
+tiers.forEach(t=>{
+  t.addEventListener('click',()=>expandTier(t));
+  t.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      expandTier(t);
+    }
+  });
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.tier')) tiers.forEach(x=>x.classList.remove('expanded'));
+});
+
+/* ---------- MODAL ---------- */
+const modal=document.getElementById('glassCallModal');
+function openGlassModal(){ modal.style.display='flex'; }
+function closeGlassModal(){ modal.style.display='none'; }
+
+document.querySelectorAll('.openGlass').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.preventDefault();
+    openGlassModal();
+  });
+});
+document.getElementById('glassCallClose').addEventListener('click',closeGlassModal);
+modal.addEventListener('click',e=>{ if(e.target===modal) closeGlassModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeGlassModal(); });
+
+/* ---------- TOAST ---------- */
+function showToast(msg){
+  const t=document.getElementById('toastSuccess');
+  t.textContent=msg;
+  t.style.opacity=1;
+  t.style.transform="translateY(0)";
+  setTimeout(()=>{
+    t.style.opacity=0;
+    t.style.transform="translateY(20px)";
+  },3500);
+}
+
+/* ---------- WIZARD ---------- */
+function showStep(n){
+  document.querySelectorAll('.step').forEach((s,i)=>{
+    s.classList.toggle('active',i===n-1);
+  });
+  document.querySelectorAll('.dot').forEach((d,i)=>{
+    d.classList.toggle('active',i===n-1);
+  });
+}
+
+document.getElementById('next1').onclick=()=>{
+  if(!document.getElementById('name').value.trim()) return alert('Enter your name');
+  if(!document.getElementById('business').value.trim()) return alert('Enter your business name');
+  if(!document.getElementById('trade').value.trim()) return alert('Enter your trade');
+  showStep(2);
+};
+document.getElementById('back2').onclick=()=>showStep(1);
+document.getElementById('next2').onclick=()=>showStep(3);
+document.getElementById('back3').onclick=()=>showStep(2);
+
+/* ---------- WIZARD SUBMIT ---------- */
+document.getElementById('submit').onclick=async()=>{
+  if(!document.getElementById('consent').checked) return alert("Please agree to be contacted");
+
+  const data={
+    name:document.getElementById('name').value.trim(),
+    business:document.getElementById('business').value.trim(),
+    trade:document.getElementById('trade').value.trim(),
+    email:document.getElementById('email').value.trim(),
+    phone:document.getElementById('phone').value.trim(),
+    calendar:document.getElementById('calendar').value,
+    automation:document.getElementById('automation').value,
+    staff:document.getElementById('staff').value,
+    calls:document.getElementById('calls').value,
+    radius:document.getElementById('radius').value,
+    submitted_at:new Date().toISOString()
+  };
+
+  try{
+    await fetch("https://formsubmit.co/ajax/benyoung003@gmail.com",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(data)
+    });
+
+    await fetch("https://script.google.com/macros/s/AKfycbwTt9_Ni6k-MfhA05vSuaJqGfuj61SOdDms1aVAHVqMxiF1a2H49NXjvmKXPHaibsdn_Q/exec",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(data)
+    });
+
+    showToast("✔️ Submitted!");
+  }catch(e){
+    console.warn(e);
+  }
+};
+
+/* ---------- MODAL SUBMIT ---------- */
+document.getElementById('glassCallSubmit').onclick=async()=>{
+  const name=document.getElementById('glassCallName').value.trim();
+  const email=document.getElementById('glassCallEmail').value.trim();
+  const phone=document.getElementById('glassCallPhone').value.trim();
+
+  if(!name) return alert("Please enter your name");
+  const payload={name,email,phone,submitted_at:new Date().toISOString()};
+
+  try{
+    await fetch("https://formsubmit.co/ajax/benyoung003@gmail.com",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+
+    await fetch("https://script.google.com/macros/s/AKfycbwTt9_Ni6k-MfhA05vSuaJqGfuj61SOdDms1aVAHVqMxiF1a2H49NXjvmKXPHaibsdn_Q/exec",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+
+    closeGlassModal();
+    showToast("📞 Call request sent!");
+  }catch(e){
+    console.warn(e);
+  }
+};
+</script>
+</body>
+</html>
