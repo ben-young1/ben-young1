@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Zovexa builds AI phone receptionists for trades and local service businesses to capture leads, book jobs, and answer calls 24/7.">
 <title>Zovexa – AI Voice Agents for Trades</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -14,6 +15,9 @@ body{
   margin:0;
   background:#f7f9fc;
   color:#0f172a;
+}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:3px solid #9bb5ff;outline-offset:2px;
 }
 a{text-decoration:none;color:inherit;}
 .container{width:92%;max-width:1100px;margin:0 auto;}
@@ -185,7 +189,7 @@ input,select{
     <h2>Try a Live Demo</h2>
     <p class="sub">Call our AI assistant and listen to how it handles real customer enquiries.</p>
     <div class="center">
-      <a class="btn-primary" href="tel:+447723561792">📞 Call Demo Agent</a>
+      <a class="btn-primary" href="tel:+447723561792" aria-label="Call the demo agent">📞 Call Demo Agent</a>
     </div>
   </div>
 </section>
@@ -286,19 +290,19 @@ input,select{
     </div>
 
     <div class="pricing-grid">
-      <div class="tier" data-tier="lead">
+      <div class="tier" data-tier="lead" tabindex="0">
         <h3>Lead Capture Agent</h3><p class="price">£129/mo</p>
         <ul><li>24/7 answering</li><li>Lead capture only</li><li>Instant SMS/email</li></ul>
         <div class="tier-extra"><p>Best for solo trades.</p></div>
       </div>
 
-      <div class="tier highlight" data-tier="hybrid">
+      <div class="tier highlight" data-tier="hybrid" tabindex="0">
         <h3>Hybrid Booking Agent</h3><p class="price">£199/mo</p>
         <ul><li>All Lead features</li><li>Provisional bookings</li><li>Calendar checks</li></ul>
         <div class="tier-extra"><p>Most popular plan.</p></div>
       </div>
 
-      <div class="tier" data-tier="full">
+      <div class="tier" data-tier="full" tabindex="0">
         <h3>Full Smart Scheduler</h3><p class="price">£299–349/mo</p>
         <ul><li>Full scanning</li><li>Auto-booking</li><li>Travel-time logic</li></ul>
         <div class="tier-extra"><p>Best for large teams.</p></div>
@@ -328,7 +332,7 @@ input,select{
         <label>Phone (optional)</label><input id="phone">
         <label>Trade</label><input id="trade">
 
-        <button class="btn-primary btn-block" id="next1">Next</button>
+        <button class="btn-primary btn-block" id="next1" type="button">Next</button>
       </div>
 
       <div class="step" id="step2">
@@ -355,8 +359,8 @@ input,select{
           <option value="4+">4+</option>
         </select>
 
-        <button class="btn-light btn-block" id="back2">Back</button>
-        <button class="btn-primary btn-block" id="next2">Next</button>
+        <button class="btn-light btn-block" id="back2" type="button">Back</button>
+        <button class="btn-primary btn-block" id="next2" type="button">Next</button>
       </div>
 
       <div class="step" id="step3">
@@ -376,8 +380,8 @@ input,select{
 
         <label><input type="checkbox" id="consent"> I give permission to be contacted</label>
 
-        <button class="btn-light btn-block" id="back3">Back</button>
-        <button class="btn-primary btn-block" id="submit">Get Recommendation</button>
+        <button class="btn-light btn-block" id="back3" type="button">Back</button>
+        <button class="btn-primary btn-block" id="submit" type="button">Get Recommendation</button>
       </div>
     </div>
   </div>
@@ -385,17 +389,17 @@ input,select{
 
 <!-- MODAL -->
 <div id="glassCallModal" class="glass-modal">
-  <div class="glass-content">
-    <h2>Book a Setup Call</h2>
+  <div class="glass-content" role="dialog" aria-modal="true" aria-labelledby="glassCallTitle">
+    <h2 id="glassCallTitle">Book a Setup Call</h2>
     <label>Your Name</label><input id="glassCallName">
     <label>Email (optional)</label><input id="glassCallEmail">
     <label>Phone (optional)</label><input id="glassCallPhone">
-    <button id="glassCallSubmit" class="btn-primary btn-block">Submit</button>
-    <button id="glassCallClose" class="btn-light btn-block">Cancel</button>
+    <button id="glassCallSubmit" class="btn-primary btn-block" type="button">Submit</button>
+    <button id="glassCallClose" class="btn-light btn-block" type="button">Cancel</button>
   </div>
 </div>
 
-<div id="toastSuccess" class="toast">✔️ Submitted!</div>
+<div id="toastSuccess" class="toast" role="status" aria-live="polite">✔️ Submitted!</div>
 
 <script>
 /* ---------- NAV SMOOTH SCROLL ---------- */
@@ -409,10 +413,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 
 /* ---------- PRICING TIERS ---------- */
 const tiers=[...document.querySelectorAll('.tier')];
+function expandTier(tier){
+  tiers.forEach(x=>x.classList.remove('expanded'));
+  tier.classList.add('expanded');
+}
 tiers.forEach(t=>{
-  t.addEventListener('click',()=>{
-    tiers.forEach(x=>x.classList.remove('expanded'));
-    t.classList.add('expanded');
+  t.addEventListener('click',()=>expandTier(t));
+  t.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      expandTier(t);
+    }
   });
 });
 document.addEventListener('click',e=>{
